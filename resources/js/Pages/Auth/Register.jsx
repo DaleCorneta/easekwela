@@ -15,6 +15,7 @@ import {
     FiShield,
     FiSun,
     FiMoon,
+    FiPhone,
 } from "react-icons/fi";
 import GuestLayout from "@/Layouts/GuestLayout";
 
@@ -40,7 +41,12 @@ const features = [
 
 export default function Register({ auth }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: "",
+        prefix: "",
+        first_name: "",
+        middle_name: "",
+        last_name: "",
+        suffix: "",
+        mobile_number: "",
         email: "",
         password: "",
         password_confirmation: "",
@@ -288,51 +294,232 @@ export default function Register({ auth }) {
                                 </div>
 
                                 <form onSubmit={submit} className="space-y-5">
-                                    {/* Name field */}
+                                    {/* Prefix / First Name / Middle Name / Last Name / Suffix */}
+                                    <div className="flex flex-wrap gap-3">
+                                        {/* Prefix */}
+                                        <div className="w-20 sm:w-24">
+                                            <label
+                                                htmlFor="prefix"
+                                                className="block text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-primary mb-2"
+                                            >
+                                                Prefix
+                                            </label>
+                                            <input
+                                                id="prefix"
+                                                type="text"
+                                                name="prefix"
+                                                value={data.prefix}
+                                                autoComplete="honorific-prefix"
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "prefix",
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                placeholder="Mr."
+                                                className="w-full px-3 py-3.5 bg-white dark:bg-white/3 border-0 rounded-xl
+                ring-1 ring-gray-200 dark:ring-white/10
+                text-gray-900 dark:text-white text-sm font-secondary font-extralight
+                placeholder:text-gray-400 dark:placeholder:text-gray-600
+                focus:outline-none focus:ring-1 focus:ring-primary/50 focus:bg-gray-50 dark:focus:bg-white/5
+                transition-all duration-300"
+                                            />
+                                            {errors.prefix && (
+                                                <p className="mt-2 text-xs text-red-500 dark:text-red-400/80 font-primary">
+                                                    {errors.prefix}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        {/* First Name */}
+                                        <div className="flex-1 min-w-[120px]">
+                                            <label
+                                                htmlFor="first_name"
+                                                className="block text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-primary mb-2"
+                                            >
+                                                First Name *
+                                            </label>
+                                            <input
+                                                id="first_name"
+                                                type="text"
+                                                name="first_name"
+                                                value={data.first_name}
+                                                autoComplete="given-name"
+                                                required
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "first_name",
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                placeholder="Juan"
+                                                className="w-full px-3 py-3.5 bg-white dark:bg-white/3 border-0 rounded-xl
+                ring-1 ring-gray-200 dark:ring-white/10
+                text-gray-900 dark:text-white text-sm font-secondary font-extralight
+                placeholder:text-gray-400 dark:placeholder:text-gray-600
+                focus:outline-none focus:ring-1 focus:ring-primary/50 focus:bg-gray-50 dark:focus:bg-white/5
+                transition-all duration-300"
+                                            />
+                                            {errors.first_name && (
+                                                <p className="mt-2 text-xs text-red-500 dark:text-red-400/80 font-primary">
+                                                    {errors.first_name}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        {/* Middle Name */}
+                                        <div className="flex-1 min-w-[120px]">
+                                            <label
+                                                htmlFor="middle_name"
+                                                className="block text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-primary mb-2"
+                                            >
+                                                Middle Name
+                                            </label>
+                                            <input
+                                                id="middle_name"
+                                                type="text"
+                                                name="middle_name"
+                                                value={data.middle_name}
+                                                autoComplete="additional-name"
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "middle_name",
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                placeholder="Santos"
+                                                className="w-full px-3 py-3.5 bg-white dark:bg-white/3 border-0 rounded-xl
+                ring-1 ring-gray-200 dark:ring-white/10
+                text-gray-900 dark:text-white text-sm font-secondary font-extralight
+                placeholder:text-gray-400 dark:placeholder:text-gray-600
+                focus:outline-none focus:ring-1 focus:ring-primary/50 focus:bg-gray-50 dark:focus:bg-white/5
+                transition-all duration-300"
+                                            />
+                                            {errors.middle_name && (
+                                                <p className="mt-2 text-xs text-red-500 dark:text-red-400/80 font-primary">
+                                                    {errors.middle_name}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        {/* Last Name */}
+                                        <div className="flex-1 min-w-[120px]">
+                                            <label
+                                                htmlFor="last_name"
+                                                className="block text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-primary mb-2"
+                                            >
+                                                Last Name *
+                                            </label>
+                                            <input
+                                                id="last_name"
+                                                type="text"
+                                                name="last_name"
+                                                value={data.last_name}
+                                                autoComplete="family-name"
+                                                required
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "last_name",
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                placeholder="Dela Cruz"
+                                                className="w-full px-3 py-3.5 bg-white dark:bg-white/3 border-0 rounded-xl
+                ring-1 ring-gray-200 dark:ring-white/10
+                text-gray-900 dark:text-white text-sm font-secondary font-extralight
+                placeholder:text-gray-400 dark:placeholder:text-gray-600
+                focus:outline-none focus:ring-1 focus:ring-primary/50 focus:bg-gray-50 dark:focus:bg-white/5
+                transition-all duration-300"
+                                            />
+                                            {errors.last_name && (
+                                                <p className="mt-2 text-xs text-red-500 dark:text-red-400/80 font-primary">
+                                                    {errors.last_name}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        {/* Suffix */}
+                                        <div className="w-20 sm:w-24">
+                                            <label
+                                                htmlFor="suffix"
+                                                className="block text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-primary mb-2"
+                                            >
+                                                Suffix
+                                            </label>
+                                            <input
+                                                id="suffix"
+                                                type="text"
+                                                name="suffix"
+                                                value={data.suffix}
+                                                autoComplete="honorific-suffix"
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "suffix",
+                                                        e.target.value,
+                                                    )
+                                                }
+                                                placeholder="Jr."
+                                                className="w-full px-3 py-3.5 bg-white dark:bg-white/3 border-0 rounded-xl
+                ring-1 ring-gray-200 dark:ring-white/10
+                text-gray-900 dark:text-white text-sm font-secondary font-extralight
+                placeholder:text-gray-400 dark:placeholder:text-gray-600
+                focus:outline-none focus:ring-1 focus:ring-primary/50 focus:bg-gray-50 dark:focus:bg-white/5
+                transition-all duration-300"
+                                            />
+                                            {errors.suffix && (
+                                                <p className="mt-2 text-xs text-red-500 dark:text-red-400/80 font-primary">
+                                                    {errors.suffix}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Mobile Number */}
                                     <div>
                                         <label
-                                            htmlFor="name"
+                                            htmlFor="mobile_number"
                                             className="block text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 font-primary mb-2"
                                         >
-                                            Full Name
+                                            Mobile Number
                                         </label>
                                         <div
                                             className={`relative rounded-xl transition-all duration-300 ${
-                                                focusedField === "name"
+                                                focusedField === "mobile_number"
                                                     ? "ring-1 ring-primary/50"
                                                     : "ring-1 ring-gray-200 dark:ring-white/10"
                                             }`}
                                         >
                                             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                                <FiUser
+                                                <FiPhone
                                                     className={`text-sm transition-colors duration-300 ${
-                                                        focusedField === "name"
+                                                        focusedField ===
+                                                        "mobile_number"
                                                             ? "text-primary"
                                                             : "text-gray-400 dark:text-gray-500"
                                                     }`}
                                                 />
                                             </div>
                                             <input
-                                                id="name"
+                                                id="mobile_number"
                                                 type="text"
-                                                name="name"
-                                                value={data.name}
-                                                autoComplete="name"
-                                                autoFocus
-                                                required
+                                                name="mobile_number"
+                                                value={data.mobile_number}
+                                                autoComplete="tel-national"
                                                 onFocus={() =>
-                                                    setFocusedField("name")
+                                                    setFocusedField(
+                                                        "mobile_number",
+                                                    )
                                                 }
                                                 onBlur={() =>
                                                     setFocusedField(null)
                                                 }
                                                 onChange={(e) =>
                                                     setData(
-                                                        "name",
+                                                        "mobile_number",
                                                         e.target.value,
                                                     )
                                                 }
-                                                placeholder="Juan Dela Cruz"
+                                                placeholder="+63 912 345 6789"
                                                 className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-white/3 border-0 rounded-xl
                                                     text-gray-900 dark:text-white text-sm font-secondary font-extralight
                                                     placeholder:text-gray-400 dark:placeholder:text-gray-600
@@ -340,9 +527,9 @@ export default function Register({ auth }) {
                                                     transition-all duration-300"
                                             />
                                         </div>
-                                        {errors.name && (
+                                        {errors.mobile_number && (
                                             <p className="mt-2 text-xs text-red-500 dark:text-red-400/80 font-primary">
-                                                {errors.name}
+                                                {errors.mobile_number}
                                             </p>
                                         )}
                                     </div>

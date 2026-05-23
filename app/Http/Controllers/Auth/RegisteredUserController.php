@@ -13,6 +13,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -31,17 +32,33 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        $validated = $request->validate([
+            'prefix'        => 'nullable|string|max:50',
+            'first_name'    => 'required|string|max:255',
+            'middle_name'   => 'nullable|string|max:255',
+            'last_name'     => 'required|string|max:255',
+            'suffix'        => 'nullable|string|max:50',
+            'mobile_number' => 'nullable|string|max:20',
+            'email'         => 'required|string|lowercase|email|max:255|unique:' . User::class,
+            'password'      => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'prefix'        => $validated['prefix'] ?? null,
+            'first_name'    => $validated['first_name'],
+            'middle_name'   => $validated['middle_name'] ?? null,
+            'last_name'     => $validated['last_name'],
+            'suffix'        => $validated['suffix'] ?? null,
+            'mobile_number' => $validated['mobile_number'] ?? null,
+            'email'         => $validated['email'],
+            'password'      => Hash::make($validated['password']),
+            'is_active'     => true,
+            'status'        => 'active',
         ]);
+
+        // Assign the Super Admin role
+        $superAdminRole = Role::findOrCreate('Super Admin');
+        $user->assignRole($superAdminRole);
 
         event(new Registered($user));
 

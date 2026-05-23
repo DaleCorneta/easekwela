@@ -1,34 +1,33 @@
-import { useForm } from "@inertiajs/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { router } from "@inertiajs/react";
+import { HiOutlineTrash } from "react-icons/hi";
 import Toggle from "@/Components/Toggle";
 
 export default function EnrollmentRequirementsManager({ enrollment, onClose }) {
     const [showAddForm, setShowAddForm] = useState(false);
     const [newRequirement, setNewRequirement] = useState("");
 
-    // We'll use a separate form for adding a requirement
-    const {
-        post: addPost,
-        processing: addProcessing,
-        errors: addErrors,
-    } = useForm({});
-
     const handleAddRequirement = (e) => {
         e.preventDefault();
         if (!newRequirement.trim()) return;
-        addPost(route("enrollments.requirements.store", enrollment.id), {
-            data: {
+
+        router.post(
+            route("enrollments.requirements.store", enrollment.id),
+            {
                 requirement_type: newRequirement,
             },
-            onSuccess: () => {
-                setNewRequirement("");
-                setShowAddForm(false);
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    setNewRequirement("");
+                    setShowAddForm(false);
+                    // Close the drawer to force a fresh reload on next open
+                    onClose();
+                },
             },
-            preserveScroll: true,
-        });
+        );
     };
 
-    // Toggle submitted / verified
     const updateRequirement = (requirementId, data) => {
         router.put(
             route("enrollments.requirements.update", {
@@ -36,7 +35,10 @@ export default function EnrollmentRequirementsManager({ enrollment, onClose }) {
                 requirement: requirementId,
             }),
             data,
-            { preserveScroll: true },
+            {
+                preserveScroll: true,
+                onSuccess: () => onClose(),
+            },
         );
     };
 
@@ -47,7 +49,10 @@ export default function EnrollmentRequirementsManager({ enrollment, onClose }) {
                     enrollment: enrollment.id,
                     requirement: requirementId,
                 }),
-                { preserveScroll: true },
+                {
+                    preserveScroll: true,
+                    onSuccess: () => onClose(),
+                },
             );
         }
     };
@@ -77,10 +82,9 @@ export default function EnrollmentRequirementsManager({ enrollment, onClose }) {
                     />
                     <button
                         type="submit"
-                        disabled={addProcessing}
                         className="px-4 py-2 bg-primary text-white rounded-base hover:bg-primary-dark disabled:opacity-50"
                     >
-                        {addProcessing ? "Adding..." : "Add"}
+                        Add
                     </button>
                 </form>
             )}
