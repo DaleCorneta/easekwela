@@ -1,0 +1,43 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@import "flowbite/src/themes/default";
+@source "../../node_modules/flowbite";
+
+@theme {
+    --container-padding: 15px;
+
+    --breakpoint-xs: 480px;
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 960px;
+    --breakpoint-xl: 1310px;
+
+    --color-primary: #47b1fc;
+    --color-secondary: #ca90fc;
+    --color-tertiary: #175ee3;
+    --color-dark: #100d08;
+    --color-light: #fdfdfd;
+
+    --font-secondary: "Poppins", sans-serif;
+    --font-primary: "Google Sans Flex", sans-serif;
+    --font-tertiary: "Roboto", sans-serif;
+
+    /* --background-image-hero-main: url("./assets/hero/hero-image.png"); */
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+}
